@@ -23,8 +23,18 @@ def leer_archivo(file):
 def leer_errores(file):
     with open(file, 'r') as f:
         txt = f.readlines()
-    for(i in txt):
-        errores = i.strip().split(";")[1:]
+    suma = 0
+    numeros_len = num_decimal(10, txt[0][0])
+    for i in txt:
+        error = i.replace('\n', "").split(", ")
+        for j in error[1:]:
+            suma += num_decimal(10, j)
+    
+    if(suma > numeros_len):
+        return True
+    else:
+        return False
+    
 
 def escribir_archivo(file, result):
     with open(file, 'a') as f:
@@ -125,8 +135,10 @@ def num_decimal(base, numero):
 rango = 1
 while(rango != 0):
     rango = num_decimal(10,input("Ingresa el tamaño del registro: "))
+
     if(rango == 0):
-
-
+        if(leer_errores("resultado.txt")):
+            break
+    
     resultado = calcular_valores(leer_archivo("numeros.txt"), rango)
     escribir_archivo("resultado.txt", resultado)
