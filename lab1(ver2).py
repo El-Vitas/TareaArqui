@@ -20,17 +20,17 @@ def leer_archivo(file):
         lista_numeros.append((base, numero))
     return lista_numeros
 
-def leer_errores(file):
+def leer_errores(file, size_n):
     with open(file, 'r') as f:
         txt = f.readlines()
+
     suma = 0
-    numeros_len = num_decimal(10, txt[0][0])
     for i in txt:
         error = i.replace('\n', "").split(", ")
         for j in error[1:]:
             suma += num_decimal(10, j)
     
-    if(suma > numeros_len):
+    if(suma >= size_n):
         return True
     else:
         return False
@@ -133,12 +133,16 @@ def num_decimal(base, numero):
 
 
 rango = 1
+numeros = leer_archivo("numeros.txt")
 while(rango != 0):
     rango = num_decimal(10,input("Ingresa el tamaño del registro: "))
 
     if(rango == 0):
-        if(leer_errores("resultado.txt")):
+        if(leer_errores("resultado.txt", len(numeros))):
             break
+        else:
+            rango = 1
+            continue
     
-    resultado = calcular_valores(leer_archivo("numeros.txt"), rango)
+    resultado = calcular_valores(numeros, rango)
     escribir_archivo("resultado.txt", resultado)
