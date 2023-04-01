@@ -121,6 +121,7 @@ def calcular_valores(lista_numeros: list, rango: int):
     error_numerico = calcular_rango(lista_numeros, num_representables)
 
     num_representables = base_to_binario(num_representables, rango)
+    print(num_representables)
     error_size = 0
     error_overflow = 0
     sum_values = []
@@ -153,7 +154,6 @@ def suma_overflow(num_representables):
         return 0
     else:
         resultado = ""
-
         num1 = num_representables[0]
         num1 = num1[::-1]
         num2 = num_representables[1]
@@ -165,14 +165,14 @@ def suma_overflow(num_representables):
             sum = CONVERSOR[num1[i]] + CONVERSOR[num2[i]]
             carry_entrada = carry_salida
             resultado = f"{(sum+carry_entrada)%2}" + resultado
-            carry_salida = (sum + 1) % 2
+            carry_salida = (sum + carry_entrada)// 2
 
         resultado = resultado[len(resultado) - len(num1):]
-
         if carry_salida != carry_entrada:
             return 1
         else:
             return 0
+
 
 
 def base_to_binario(num_representables, rango):
